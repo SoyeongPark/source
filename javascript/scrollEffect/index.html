@@ -23,9 +23,8 @@
 	section .sec_tit{position:absolute; top:30px; left:30px; padding:0 10px; color:#fff; background:#666;}
 	.start{background:#ff7cd8;}
 	.start .txt{font-size:50px; color:#fff; text-align:center; text-shadow:2px 0 10px rgba(0,0,0,.2);}
-	.scroll_basic .box{width:100px; height:100px; border-radius:50%; background:#96c1e1; font-size:30px; color:#fff; text-align:center; line-height:100px;}
+	.circle{width:100px; height:100px; border-radius:50%; background:#96c1e1; font-size:30px; color:#fff; text-align:center; line-height:100px;}
 	.scroll_steps .steps{display:flex; justify-content:center;}
-	.scroll_steps .steps li{width:100px; height:100px; border-radius:50%; font-size:30px; color:#fff; text-align:center; line-height:100px;}
 	.scroll_steps .steps li + li{margin-left:40px;}
 	.scroll_steps .steps li:nth-child(1){background:#ff0000;}
 	.scroll_steps .steps li:nth-child(2){background:#ffa500;}
@@ -44,8 +43,16 @@
 	<!-- 기본형 -->
 	<section class="scroll_basic">
 		<p class="sec_tit">Fade in & up</p>
-		<div class="box" data-scroll="fadein_up">
-			Hi
+		<div class="circle" data-scroll="fadein_up">
+			Basic
+		</div>
+	</section>
+
+	<!-- Hook Position -->
+	<section class="scroll_basic">
+		<p class="sec_tit">Hook Position 50%</p>
+		<div class="circle" data-scroll="fadein_up" data-hook="0.5">
+			Hook
 		</div>
 	</section>
 
@@ -53,18 +60,18 @@
 	<section class="scroll_steps">
 		<p class="sec_tit">Steps</p>
 
-		<ul class="steps" data-scroll="steps">
-			<li data-scroll="fadein_up">Do</li>
-			<li data-scroll="fadein_up">Re</li>
-			<li data-scroll="fadein_up">Mi</li>
-			<li data-scroll="fadein_up">Fa</li>
-			<li data-scroll="fadein_up">Sol</li>
-			<li data-scroll="fadein_up">La</li>
-			<li data-scroll="fadein_up">Si</li>
+		<ul class="steps" data-scroll="fadein_up" data-steps>
+			<li class="circle" data-step>Do</li>
+			<li class="circle" data-step>Re</li>
+			<li class="circle" data-step>Mi</li>
+			<li class="circle" data-step>Fa</li>
+			<li class="circle" data-step>Sol</li>
+			<li class="circle" data-step>La</li>
+			<li class="circle" data-step>Si</li>
 		</ul>
 	</section>
 
-	<script src="https://soyeongpark.github.io/source/vendor/scrollMagic/ScrollMagic.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
 	<script>
 		$(function(){
 			// run sroll effect 
@@ -78,17 +85,21 @@
 			
 			var revealElements = document.querySelectorAll('[data-scroll]');
 			for (var i=0; i<revealElements.length; i++) {
-				
+				var tar = {
+					el : revealElements[i],
+					hook : revealElements[i].getAttribute('data-hook')? revealElements[i].getAttribute('data-hook') : 0.9,
+				};
+
 				var scene = new ScrollMagic.Scene({
-					triggerElement: revealElements[i],
-					triggerHook: 0.9
+					triggerElement: tar.el,
+					triggerHook: tar.hook
 				})
-				.setClassToggle(revealElements[i], "on") // add class toggle
+				.setClassToggle(tar.el, "on") // add class toggle
 				.addTo(controller);
 			};
 
-			if( $('[data-scroll="steps"]').length ){
-				$('[data-scroll="steps"] [data-scroll]').each(function(i){
+			if( $('[data-steps]').length ){
+				$('[data-steps] [data-step]').each(function(i){
 					$(this).css('transition-delay',(i*.1)+'s');
 				});
 			}

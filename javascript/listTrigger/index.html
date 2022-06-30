@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>scrollEffect</title>
+
+	<!-- style -->
+	<link rel="stylesheet" href="https://soyeongpark.github.io/source/css/reset.min.css">
+
+	<!-- script -->
+	<script src="https://soyeongpark.github.io/source/vendor/jquery/1.12.4/jquery.min.js"></script>
+
+	<style>
+	/* page style */
+	section{display:flex; justify-content:center; align-items:center; position:relative; height:100vh;}
+	section + section{border-top:1px dashed #ccc;}
+	section .sec_tit{position:absolute; top:30px; left:30px; padding:0 10px; color:#fff; background:#666;}
+	.list{display: flex; justify-content: center;}
+	.list li{width: 100px; height: 100px; background: #eee;}
+	.list li.on{background: #ea4335;}
+	.list li + li{margin-left: 10px;}
+	</style>
+</head>
+<body>
+	
+	<section>
+		<p class="sec_tit">순차적으로 on</p>
+
+		<ul class="list" id="js_trigger">
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</section>
+
+	<script>
+		$(function(){
+			/* on trigger */
+			var triggerTar = '#js_trigger';
+			listTrigger(triggerTar)
+            setInterval(function(){
+                listTrigger(triggerTar);
+            },1500);
+        });//jquery
+
+        function listTrigger(tar){
+            var $tar = $(tar);
+            var idx;
+            if( !$tar.find('li.on').length ){
+                idx = 0;
+            }
+            else{
+                if( $tar.find('li.on').is(':last-child') )
+                    idx = 0;
+                else
+                    idx = $tar.find('li.on').index() + 1;
+            }
+            $tar.find('li.on').removeClass('on');
+            $tar.find('li').eq(idx).addClass('on');
+        }
+	</script>
+</body>
+</html>
