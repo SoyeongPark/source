@@ -2,9 +2,16 @@
 
 ```html
 <style>
-    .word{perspective: 500px;}
-    .card{transform-style: preserve-3d;}
-    .card-side{backface-visibility: hidden;} 
+    .word{
+        perspective: 500px;
+    }
+    .card{
+        transform-style: preserve-3d;
+    }
+    .card-side{
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
 </style>
 
 <div class="word">
